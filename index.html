@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MealMate</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            font-family: Arial, sans-serif;
+             margin: 0;
+            padding: 0;
+            background-color: #F2F3F5; /* Secondary Color */
+        color: #333333; /* Text Color */
+        }
+        .container {
+            width: 90%;
+            max-width: 400px;
+            background-color: #fffff;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        .meal-photo {
+            width: 100%;
+            height: 450px;
+            }
+        .meal-name {
+            font-size: 24px;
+            text-align: center;
+            padding: 16px;
+            color: #333333; /* Text Color */
+        }
+        .actions {
+            display: flex;
+            justify-content: space-around;
+            padding: 16px;
+        }
+        .button {
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold; /* Make font bold */
+        }
+        .next {
+            background-color: #F9A826; /* Primary Color */
+              color: #FFFFFF; /* White text on colored buttons */
+             padding: 12px 24px;
+                 font-size: 18px;
+
+        }
+        .choose {
+            background-color: #5C9210; /* Accent Color */
+    color: #FFFFFF;
+    padding: 10px 20px;
+        }
+        .footer {
+            text-align: center;
+            padding: 20px;
+            font-size: 14px;
+            color: #666;
+        }
+     
+        .tags {
+    padding: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 10px; /* Add some space between the image and tags */
+}
+
+.tag {
+    background-color: #dcdcdc; /* Lighter gray background */
+    color: #666; /* Darker gray text */
+    margin: 5px;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 8px;
+    
+    
+    border: 1px solid #ccc; /* Optional: adds a subtle border */
+}
+
+/* Keyframes for fade-in effect */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+/* Class to apply the animation to the meal photo */
+.fade-in {
+    animation: fadeIn 1s ease-in-out;
+}
+
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="meal-name">Dosa</div>
+    <img src="./dosa.webp" alt="Dosa" class="meal-photo">
+  
+    <div class="actions">
+        <button class="button next" onclick="nextOption()">Surprise Me</button>
+    </div>
+    <div class="tags"></div>
+</div>
+
+<script>
+  
+
+  // Example JSON data
+const mealData = {
+  "meals": [
+    {
+      "name": "Dosa",
+      "imagePath": "./images/dosa.webp",
+      "tags": ["South Indian", "Breakfast", "Vegetarian"]
+    },
+    {
+      "name": "Poha",
+      "imagePath": "./images/poha.webp",
+      "tags": ["Indian", "Breakfast", "Vegan"]
+    },
+    {
+      "name": "Schezwan Rice",
+      "imagePath": "./images/schezwan-rice.webp",
+      "tags": ["Indo-Chinese", "Dinner", "Spicy"]
+    }
+    // Add more meals as needed
+  ]
+};
+
+function nextOption() {
+  // Pick a random meal
+  const randomIndex = Math.floor(Math.random() * mealData.meals.length);
+  const meal = mealData.meals[randomIndex];
+
+  // Update the HTML elements
+  document.querySelector('.meal-photo').src = meal.imagePath;
+  document.querySelector('.meal-photo').alt = meal.name;
+  document.querySelector('.meal-name').textContent = meal.name;
+
+     // Update tags
+  const tagsContainer = document.querySelector('.tags');
+    tagsContainer.innerHTML = ''; // Clear existing tags
+    meal.tags.forEach(tag => {
+        const tagElement = document.createElement('div');
+        tagElement.textContent = tag;
+        tagElement.className = 'tag';
+        tagsContainer.appendChild(tagElement);
+    });
+
+
+      // Debug: Log the random meal name to the console
+      console.log('Random meal name:', meal.name + " | MealMate"); 
+          
+    // Change the browser title
+    document.title = meal.name + " | MealMate";
+
+
+    const mealPhoto = document.querySelector('.meal-photo');
+    mealPhoto.classList.remove('fade-in'); // Reset the animation
+    void mealPhoto.offsetWidth; // Trigger reflow to restart the animation
+    mealPhoto.classList.add('fade-in');
+
+
+
+
+}
+
+function chooseThis() {
+  // Implement the logic when a meal is chosen
+  console.log('Choose this clicked');
+}
+
+// Initial random meal display
+nextOption();
+
+</script>
+
+</body>
+</html>
